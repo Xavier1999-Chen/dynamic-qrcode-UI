@@ -7,7 +7,8 @@ from PIL import Image, ImageTk
 import os
 
 class QRCodeGenerator:
-    def __init__(self):      
+    def __init__(self, url):      
+        self.url = url
         self.window = tk.Tk()
         self.window.geometry("1600x1200")
         self.window.configure(bg='white')
@@ -40,7 +41,7 @@ class QRCodeGenerator:
         timestamp = datetime.now().timestamp()
         # print(timestamp)
 
-        data = f"{url}?timestamp={timestamp}"
+        data = f"{url}?timestamp={timestamp}&form={self.url}"
 
         qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4)
         qr.add_data(data)
@@ -98,9 +99,9 @@ class QRCodeGenerator:
 
 
     def timer_loop(self):
-        url = "https://xavier1999-chen.github.io/dynamic-qrcode/"
+        gate_url = "https://xavier1999-chen.github.io/dynamic-qrcode/"
         while True:
-            self.generate_qr_code(url)
+            self.generate_qr_code(gate_url)
             self.update_time()
             time.sleep(1)  # 每1秒更新一次
 
@@ -108,7 +109,8 @@ class QRCodeGenerator:
         self.window.mainloop()
 
 if __name__ == "__main__":
-    
-    app = QRCodeGenerator()
+    url = 'http://qr61.cn/otEb8w/qrcRDny'
+    # url = 'https://www.google.com'
+    app = QRCodeGenerator(url)
     app.run()
     
